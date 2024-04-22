@@ -1,6 +1,7 @@
 package main;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Window {
 
@@ -11,9 +12,7 @@ public class Window {
 	
 	public Window() {
 		this.createWindow();
-		Jogo jogo = new Jogo();
-		mainWindow.add(jogo);
-		mainWindow.setVisible(true);
+		this.createPanel();
 	}
 
     public void createWindow(){
@@ -23,6 +22,12 @@ public class Window {
         window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
         this.setMainWindow(window);
+    }
+    
+    public void createPanel() {
+    	Jogo jogo = new Jogo();
+		mainWindow.add(jogo);
+		mainWindow.setVisible(true);
     }
     
     public JFrame getMainWindow() {
