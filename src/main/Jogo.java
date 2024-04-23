@@ -21,6 +21,9 @@ public class Jogo extends JPanel{
 	private BufferedImage imgGame;
 	private BufferedImage imgX;
 	private BufferedImage imgO;
+	private BufferedImage imgBack;
+	private BufferedImage imgPlaca;
+	
 	private boolean gameOver;
 	private char[][] board;
 	private int turn;
@@ -51,14 +54,32 @@ public class Jogo extends JPanel{
 			int gameHeight = 700;
 			int gameWidth = 800;
 			
-			imgTitle = ImageIO.read(new File("src/resources/Titulo Jogo da Velha.png"));
+			int placaHeight = 95;
+			int placaWidth = 220;
+			
+			int tituloHeight = 100;
+			int tituloWidth = 600;
+			
+			
+			imgBack = ImageIO.read(new File("src/resources/BackgroundEdit.png"));
+			
+			BufferedImage titulo = ImageIO.read(new File("src/resources/Placa1.jpg"));
+			imgTitle = new BufferedImage(tituloWidth, tituloHeight, BufferedImage.TYPE_INT_ARGB);
+		    Graphics2D g2dTitulo = imgTitle.createGraphics();
+		    g2dTitulo.drawImage(titulo.getScaledInstance(tituloWidth, tituloHeight, Image.SCALE_SMOOTH), 0, 0, null);
+		    g2dTitulo.dispose();
+			
+			BufferedImage placa = ImageIO.read(new File("src/resources/Placa2.jpg"));
+			imgPlaca = new BufferedImage(placaWidth, placaHeight, BufferedImage.TYPE_INT_ARGB);
+		    Graphics2D g2dPlaca = imgPlaca.createGraphics();
+		    g2dPlaca.drawImage(placa.getScaledInstance(placaWidth, placaHeight, Image.SCALE_SMOOTH), 0, 0, null);
+		    g2dPlaca.dispose();
 			
 			BufferedImage game = ImageIO.read(new File("src/resources/JogoDaVelha.png"));
 			imgGame = new BufferedImage(gameWidth, gameHeight, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2dGame = imgGame.createGraphics();
 		    g2dGame.drawImage(game.getScaledInstance(gameWidth, gameHeight, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dGame.dispose();
-			
 			
 			BufferedImage x = ImageIO.read(new File("src/resources/X.png"));
 			imgX = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
@@ -71,7 +92,8 @@ public class Jogo extends JPanel{
 		    Graphics2D g2dO = imgO.createGraphics();
 		    g2dO.drawImage(o.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dO.dispose();
-			repaint();
+			
+		    repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -86,19 +108,32 @@ public class Jogo extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		try {
+			g.drawImage(imgBack, 0, 0, null);
+		}catch(Exception e) {
+			System.out.println(e);
+		}
 		int xImageGame = (getWidth() - imgGame.getWidth())/2;
-		int yImageGame = (getHeight() - imgGame.getHeight())/2 + 40;
+		int yImageGame = (getHeight() - imgGame.getHeight())/2 + 100;
 		g.drawImage(imgGame, xImageGame, yImageGame, this);
 			
 		String title = "Jogo da Velha";
 		int xTitulo = (getWidth() - imgTitle.getWidth())/2;
-		int yTitulo = 50;
+		int yTitulo = 30;
 			
 		g.drawImage(imgTitle, xTitulo, yTitulo, this);
 		
+		g.setFont(new Font("Gotham", Font.BOLD, 50));
+		g.setColor(Color.BLACK);
+		
+		xTitulo += 130;
+		yTitulo += 53;
+		
+		g.drawString(title, xTitulo, yTitulo);
+		
 		String turno = "Turno: ";
-		int xTurno = 170;
-		int yTurno = 170;
+		int xTurno = 30;
+		int yTurno = 145;
 		
 		if (turn == 0) {
 			turno = turno + "X";
@@ -106,21 +141,26 @@ public class Jogo extends JPanel{
 			turno = turno + "O";
 		}
 		
+		g.drawImage(imgPlaca, xTurno, yTurno, this);
+		
 		g.setFont(new Font("Gotham", Font.BOLD, 30));
 		g.setColor(Color.BLACK);
 		
+		yTurno += 60;
+		xTurno += 50;
+		
 		g.drawString(turno, xTurno, yTurno);
 		
-		int cellWidth = getWidth()/3;
-		int cellHeight = getHeight()/3;
+		int cellWidth = getWidth()/3 - 90;
+		int cellHeight = getHeight()/3 - 85;
 		
 		for(int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				char xo = board[i][j];
 				int xImage, yImage;
 				
-				xImage = xImageGame + (cellWidth * j) + (cellWidth - imgX.getWidth()) / 2;
-				yImage = yImageGame + (cellHeight * i) + (cellHeight - imgX.getHeight())/2;
+				xImage = (cellWidth * j) + (cellWidth - imgX.getWidth()) / 2 + 130;
+				yImage = (cellHeight * i) + (cellHeight - imgX.getHeight()) /2 + 210;
 				
 				if(xo == 'X') {
 					g.drawImage(imgX, xImage, yImage, this);
@@ -135,10 +175,10 @@ public class Jogo extends JPanel{
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				int cellWidth = getWidth()/3;
-				int cellHeight = getHeight() /3;
-				int row = e.getY()/ cellHeight;
-				int col = e.getX()/cellWidth;
+				int cellWidth = (getWidth())/3;
+				int cellHeight = (getHeight())/3;
+				int row = (e.getY())/ cellHeight;
+				int col = (e.getX())/ cellWidth;
 				System.out.println("Clicked: " + row + ", " + col);
 				insertXO(row, col);
 			}
