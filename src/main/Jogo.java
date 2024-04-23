@@ -17,6 +17,7 @@ public class Jogo extends JPanel{
 	private JFrame window;
 	private JPanel panel;
 
+	private BufferedImage imgTitle;
 	private BufferedImage imgGame;
 	private BufferedImage imgX;
 	private BufferedImage imgO;
@@ -47,19 +48,29 @@ public class Jogo extends JPanel{
 			int newHeight = 70;
 			int newWidth = 70;
 			
-			imgGame = ImageIO.read(new File("src/resources/JogoDaVelha.png"));
+			int gameHeight = 700;
+			int gameWidth = 800;
+			
+			imgTitle = ImageIO.read(new File("src/resources/Titulo Jogo da Velha.png"));
+			
+			BufferedImage game = ImageIO.read(new File("src/resources/JogoDaVelha.png"));
+			imgGame = new BufferedImage(gameWidth, gameHeight, BufferedImage.TYPE_INT_ARGB);
+		    Graphics2D g2dGame = imgGame.createGraphics();
+		    g2dGame.drawImage(game.getScaledInstance(gameWidth, gameHeight, Image.SCALE_SMOOTH), 0, 0, null);
+		    g2dGame.dispose();
+			
 			
 			BufferedImage x = ImageIO.read(new File("src/resources/X.png"));
 			imgX = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-		    Graphics2D g2d = imgX.createGraphics();
-		    g2d.drawImage(x.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
-		    g2d.dispose();
+		    Graphics2D g2dX = imgX.createGraphics();
+		    g2dX.drawImage(x.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
+		    g2dX.dispose();
 			
 		    BufferedImage o = ImageIO.read(new File("src/resources/O.png"));
 			imgO = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-		    Graphics2D g2d2 = imgO.createGraphics();
-		    g2d2.drawImage(o.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
-		    g2d2.dispose();
+		    Graphics2D g2dO = imgO.createGraphics();
+		    g2dO.drawImage(o.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
+		    g2dO.dispose();
 			repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -76,21 +87,18 @@ public class Jogo extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		int xImageGame = (getWidth() - imgGame.getWidth())/2;
-		int yImageGame = (getHeight() - imgGame.getHeight())/2;
+		int yImageGame = (getHeight() - imgGame.getHeight())/2 + 40;
 		g.drawImage(imgGame, xImageGame, yImageGame, this);
 			
-		g.setFont(new Font("Gotham", Font.BOLD, 40));
-		g.setColor(Color.BLUE);
-			
 		String title = "Jogo da Velha";
-		int xTitulo = 320;
+		int xTitulo = (getWidth() - imgTitle.getWidth())/2;
 		int yTitulo = 50;
 			
-		g.drawString(title, xTitulo, yTitulo);
+		g.drawImage(imgTitle, xTitulo, yTitulo, this);
 		
 		String turno = "Turno: ";
-		int xTurno = 320;
-		int yTurno = 110;
+		int xTurno = 170;
+		int yTurno = 170;
 		
 		if (turn == 0) {
 			turno = turno + "X";
@@ -98,7 +106,7 @@ public class Jogo extends JPanel{
 			turno = turno + "O";
 		}
 		
-		g.setFont(new Font("Gotham", Font.BOLD, 60));
+		g.setFont(new Font("Gotham", Font.BOLD, 30));
 		g.setColor(Color.BLACK);
 		
 		g.drawString(turno, xTurno, yTurno);
