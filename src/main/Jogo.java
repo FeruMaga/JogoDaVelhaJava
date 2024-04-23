@@ -219,7 +219,7 @@ public class Jogo extends JPanel{
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				int cellWidth = (getWidth()-200)/3;
+				int cellWidth = (getWidth()-250)/3;
 				int cellHeight = (getHeight() - 100)/3;
 				int row = (e.getY() - 140)/ cellHeight;
 				int col = (e.getX() - 190)/ cellWidth;
