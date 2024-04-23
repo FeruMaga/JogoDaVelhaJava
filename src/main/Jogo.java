@@ -175,10 +175,10 @@ public class Jogo extends JPanel{
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				int cellWidth = (getWidth())/3;
-				int cellHeight = (getHeight())/3;
-				int row = (e.getY())/ cellHeight;
-				int col = (e.getX())/ cellWidth;
+				int cellWidth = (getWidth()-200)/3;
+				int cellHeight = (getHeight() - 100)/3;
+				int row = (e.getY() - 140)/ cellHeight;
+				int col = (e.getX() - 190)/ cellWidth;
 				System.out.println("Clicked: " + row + ", " + col);
 				insertXO(row, col);
 			}
@@ -204,7 +204,11 @@ public class Jogo extends JPanel{
 		repaint();
 	}
 	
-	
+	public void win() {
+		for(int i = 0; i < 3; i ++) {
+			
+		}
+	}
 	
 	public JPanel getPanel() {
 		return panel;
