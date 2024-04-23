@@ -20,6 +20,7 @@ public class Window {
         window.setSize(Width, Height);
         window.setResizable(false);
         window.setVisible(true);
+        window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
         this.setMainWindow(window);
     }

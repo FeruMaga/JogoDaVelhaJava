@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -9,8 +11,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class Jogo extends JPanel{
 	
@@ -28,6 +34,8 @@ public class Jogo extends JPanel{
 	private char[][] board;
 	private int turn;
 	
+	private String winner;
+	
 	private int row;
 	private int col;
 	
@@ -42,8 +50,41 @@ public class Jogo extends JPanel{
 		mouse();
 	}
 	
-	public void GameLoop() {
-
+	public void panelFinish() {
+		if(gameOver) {
+			JFrame gameOverWindow = new JFrame("Fim do Jogo");
+	        gameOverWindow.setSize(400, 200);
+	        gameOverWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	        gameOverWindow.setLocationRelativeTo(null);
+			
+			JPanel gameOverPanel = new JPanel(new BorderLayout());
+			
+			JLabel messageLabel = new JLabel(winner, SwingConstants.CENTER);
+			gameOverPanel.add(messageLabel, BorderLayout.CENTER);
+			
+			JButton restartButton = new JButton("Restart");
+			restartButton.addActionListener((ActionListener) new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					gameRestart();
+					gameOverWindow.dispose();
+				}
+			});
+			
+			JButton exitButton = new JButton("Sair");
+			exitButton.addActionListener((ActionListener) new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
+			
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.add(restartButton);
+			buttonPanel.add(exitButton);
+			gameOverPanel.add(buttonPanel, BorderLayout.SOUTH);
+			
+			gameOverWindow.add(gameOverPanel);
+			gameOverWindow.setVisible(true);
+		}
 	}
 	
 	public void loadImages() {
@@ -171,6 +212,7 @@ public class Jogo extends JPanel{
 		}
 		
 		win();
+		
 	}
 	
 	public void mouse() {
@@ -208,16 +250,19 @@ public class Jogo extends JPanel{
 	
 	public boolean win() {
 		boolean noSpaces = true;
+		int subsTurno = 0;
 		for(int i = 0; i < 3; i ++) {
 			if ((board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X') ||
 					(board[i][0] == 'O' && board[i][1] == 'O' && board[i][2] == 'O')) {
 				System.out.println("GameOver");
 				gameOver = true;
+				whoWins();
 				return true;
 			} else if((board[0][i] == 'X' && board[1][i] == 'X' && board[2][i] == 'X') ||
 					(board[0][i] == 'O' && board[1][i] == 'O' && board[2][i] == 'O')) {
 				System.out.println("GameOver");
 				gameOver = true;
+				whoWins();
 				return true;
 			}
 			
@@ -235,16 +280,41 @@ public class Jogo extends JPanel{
 			(board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O')) {
 			System.out.println("GameOver");
 			gameOver = true;
+			whoWins();
 			return true;
 		}
 		
 		if(noSpaces) {
 			System.out.println("GameOver");
+			turn = 2;
 			gameOver = true;
+			whoWins();
 			return true;
 		}
 		
+		
+		
 		return false;
+	}
+	
+	public void whoWins() {
+		if(gameOver) {
+			if(turn == 0) {
+				winner = "O ganhou!";
+			} else if( turn == 1) {
+				winner = "X ganhou!";
+			} else if (turn == 2) {
+				winner = "A Velha ganhou!";
+			}
+			panelFinish();
+		}
+	}
+	
+	public void gameRestart(){
+		this.gameOver = false;
+		this.board = new char[3][3];
+		this.turn = 0;
+		repaint();
 	}
 	
 	public JPanel getPanel() {
