@@ -36,6 +36,8 @@ public class Jogo extends JPanel{
 	
 	private String winner;
 	
+	private String playerIA;
+	
 	private int row;
 	private int col;
 	
@@ -140,12 +142,6 @@ public class Jogo extends JPanel{
 		}
 	}	
 	
-	
-	public void Draw() {
-		
-		
-	}
-	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -211,7 +207,7 @@ public class Jogo extends JPanel{
 			}
 		}
 		
-		win();
+		whoWon();
 		
 	}
 	
@@ -248,64 +244,74 @@ public class Jogo extends JPanel{
 		repaint();
 	}
 	
-	public boolean win() {
-		boolean noSpaces = true;
-		int subsTurno = 0;
+	public boolean xWon() {
 		for(int i = 0; i < 3; i ++) {
-			if ((board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X') ||
-					(board[i][0] == 'O' && board[i][1] == 'O' && board[i][2] == 'O')) {
+			if (board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X'){
 				System.out.println("GameOver");
+				winner = "X ganhou!";
 				gameOver = true;
-				whoWins();
 				return true;
-			} else if((board[0][i] == 'X' && board[1][i] == 'X' && board[2][i] == 'X') ||
-					(board[0][i] == 'O' && board[1][i] == 'O' && board[2][i] == 'O')) {
+			}else if(board[0][i] == 'X' && board[1][i] == 'X' && board[2][i] == 'X'){
 				System.out.println("GameOver");
+				winner = "X ganhou!";
 				gameOver = true;
-				whoWins();
 				return true;
 			}
-			
-			for(int j = 0; j<3; j++) {
-				if(board[i][j] == 0) {
-					noSpaces = false;
-				}
-			}
-		
 		}
 		
 		if((board[0][0] == 'X' && board[1][1] == 'X' && board[2][2] == 'X') ||
-			(board[0][0] == 'O' && board[1][1] == 'O' && board[1][2] == 'O') || 
-			(board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X') ||
-			(board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O')) {
+		(board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X')) {
 			System.out.println("GameOver");
+			winner = "X ganhou!";
 			gameOver = true;
-			whoWins();
 			return true;
 		}
-		
-		if(noSpaces) {
-			System.out.println("GameOver");
-			turn = 2;
-			gameOver = true;
-			whoWins();
-			return true;
-		}
-		
-		
 		
 		return false;
 	}
 	
-	public void whoWins() {
-		if(gameOver) {
-			if(turn == 0) {
+	public boolean oWon() {
+		for(int i = 0; i < 3; i ++) {
+			if (board[i][0] == 'O' && board[i][1] == 'O' && board[i][2] == 'O'){
+				System.out.println("GameOver");
 				winner = "O ganhou!";
-			} else if( turn == 1) {
-				winner = "X ganhou!";
-			} else if (turn == 2) {
-				winner = "A Velha ganhou!";
+				gameOver = true;
+				return true;
+			}else if(board[0][i] == 'O' && board[1][i] == 'O' && board[2][i] == 'O'){
+				System.out.println("GameOver");
+				winner = "O ganhou!";
+				gameOver = true;
+				return true;
 			}
+		}
+		
+		if((board[0][0] == 'O' && board[1][1] == 'O' && board[2][2] == 'O') ||
+		(board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O')) {
+			System.out.println("GameOver");
+			winner = "O ganhou!";
+			gameOver = true;
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean velhaWon() {
+		for (int i = 0; i < 3; i++) {
+			for(int j = 0; j<3; j++) {
+				if(board[i][j] == 0) {
+					return false;
+				}
+			}
+		}
+		System.out.println("GameOver");
+		winner = "A Velha ganhou!";
+		gameOver = true;
+		return true;
+	}
+	
+	public void whoWon() {
+		if(velhaWon() || xWon() || oWon()) {
 			panelFinish();
 		}
 	}
@@ -316,6 +322,17 @@ public class Jogo extends JPanel{
 		this.turn = 0;
 		repaint();
 	}
+	
+	public boolean gameEmpty() {
+		for(int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if(board[i][j] == 'X' || board[i][j] == 'O') {
+					return true;
+				}
+			}
+		}
+		return false;
+	}	
 	
 	public JPanel getPanel() {
 		return panel;
