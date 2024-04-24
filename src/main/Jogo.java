@@ -36,7 +36,8 @@ public class Jogo extends JPanel{
 	
 	private String winner;
 	
-	private String playerIA;
+	private char playerIA;
+	private char player;
 	
 	private int row;
 	private int col;
