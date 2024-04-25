@@ -29,6 +29,8 @@ public class Jogo extends JPanel{
 	private BufferedImage imgO;
 	private BufferedImage imgBack;
 	private BufferedImage imgPlaca;
+	private BufferedImage imgPlayersButton;
+	private BufferedImage imgAIButton;
 	
 	private boolean gameOver;
 	private char[][] board;
@@ -48,19 +50,17 @@ public class Jogo extends JPanel{
 		this.gameOver = false;
 		this.board = new char[3][3];
 		this.turn = 0;
-		this.typeGame = 0;
+		this.typeGame = 0;	
 		loadImages();
 		mouse();
+		mainPanel();
 	}
 	
 	public void mainPanel() {
-		if(typeGame == 0) {
-			JPanel gridPanel = new JPanel(new GridLayout(3,3));
-			gridPanel.setSize(new Dimension(500,500));
-			add(gridPanel, BorderLayout.CENTER);
-		}else {
-			System.out.println("Escolhe tipo de jogo");
-		}
+		JPanel gridPanel = new JPanel(new GridLayout(3,3));
+		gridPanel.setSize(new Dimension(500,500));
+		add(gridPanel, BorderLayout.CENTER);
+		repaint();
 	}
 	
 	public void panelFinish() {
@@ -146,6 +146,18 @@ public class Jogo extends JPanel{
 		    Graphics2D g2dO = imgO.createGraphics();
 		    g2dO.drawImage(o.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dO.dispose();
+		    
+		    BufferedImage playersButton = ImageIO.read(new File("src/resources/Botao1.png"));
+		    imgPlayersButton = new BufferedImage(220, 300, BufferedImage.TYPE_INT_ARGB);
+		    Graphics2D g2dPlayersButton = imgPlayersButton.createGraphics();
+		    g2dPlayersButton.drawImage(playersButton.getScaledInstance(220, 300, Image.SCALE_SMOOTH), 0, 0, null);
+		    g2dPlayersButton.dispose();
+		    
+		    BufferedImage aiButton = ImageIO.read(new File("src/resources/Botao2.png"));
+		    imgAIButton = new BufferedImage(220, 300, BufferedImage.TYPE_INT_ARGB);
+		    Graphics2D g2dAIButton = imgAIButton.createGraphics();
+		    g2dAIButton.drawImage(aiButton.getScaledInstance(220, 300, Image.SCALE_SMOOTH), 0, 0, null);
+		    g2dAIButton.dispose();
 			
 		    repaint();
 		} catch (IOException e) {
@@ -156,69 +168,73 @@ public class Jogo extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		try {
-			g.drawImage(imgBack, 0, 0, null);
-		}catch(Exception e) {
-			System.out.println(e);
-		}
-		int xImageGame = (getWidth() - imgGame.getWidth())/2;
-		int yImageGame = (getHeight() - imgGame.getHeight())/2 + 100;
-		g.drawImage(imgGame, xImageGame, yImageGame, this);
-			
-		String title = "Jogo da Velha";
-		int xTitulo = (getWidth() - imgTitle.getWidth())/2;
-		int yTitulo = 30;
-			
-		g.drawImage(imgTitle, xTitulo, yTitulo, this);
-		
-		g.setFont(new Font("Gotham", Font.BOLD, 50));
-		g.setColor(Color.BLACK);
-		
-		xTitulo += 130;
-		yTitulo += 53;
-		
-		g.drawString(title, xTitulo, yTitulo);
-		
-		String turno = "Turno: ";
-		int xTurno = 30;
-		int yTurno = 145;
-		
-		if (turn == 0) {
-			turno = turno + "X";
-		}else {
-			turno = turno + "O";
-		}
-		
-		g.drawImage(imgPlaca, xTurno, yTurno, this);
-		
-		g.setFont(new Font("Gotham", Font.BOLD, 30));
-		g.setColor(Color.BLACK);
-		
-		yTurno += 60;
-		xTurno += 50;
-		
-		g.drawString(turno, xTurno, yTurno);
-		
-		int cellWidth = getWidth()/3 - 90;
-		int cellHeight = getHeight()/3 - 85;
-		
-		for(int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				char xo = board[i][j];
-				int xImage, yImage;
+		if(typeGame != 0) {
+			try {
+				g.drawImage(imgBack, 0, 0, null);
+			}catch(Exception e) {
+				System.out.println(e);
+			}
+			int xImageGame = (getWidth() - imgGame.getWidth())/2;
+			int yImageGame = (getHeight() - imgGame.getHeight())/2 + 100;
+			g.drawImage(imgGame, xImageGame, yImageGame, this);
 				
-				xImage = (cellWidth * j) + (cellWidth - imgX.getWidth()) / 2 + 130;
-				yImage = (cellHeight * i) + (cellHeight - imgX.getHeight()) /2 + 210;
+			String title = "Jogo da Velha";
+			int xTitulo = (getWidth() - imgTitle.getWidth())/2;
+			int yTitulo = 30;
 				
-				if(xo == 'X') {
-					g.drawImage(imgX, xImage, yImage, this);
-				}else if(xo == 'O') {
-					g.drawImage(imgO, xImage, yImage, this);
+			g.drawImage(imgTitle, xTitulo, yTitulo, this);
+			
+			g.setFont(new Font("Gotham", Font.BOLD, 50));
+			g.setColor(Color.BLACK);
+			
+			xTitulo += 130;
+			yTitulo += 53;
+			
+			g.drawString(title, xTitulo, yTitulo);
+			
+			String turno = "Turno: ";
+			int xTurno = 30;
+			int yTurno = 145;
+			
+			if (turn == 0) {
+				turno = turno + "X";
+			}else {
+				turno = turno + "O";
+			}
+			
+			g.drawImage(imgPlaca, xTurno, yTurno, this);
+			
+			g.setFont(new Font("Gotham", Font.BOLD, 30));
+			g.setColor(Color.BLACK);
+			
+			yTurno += 60;
+			xTurno += 50;
+			
+			g.drawString(turno, xTurno, yTurno);
+			
+			int cellWidth = getWidth()/3 - 90;
+			int cellHeight = getHeight()/3 - 85;
+			
+			for(int i = 0; i < 3; i++) {
+				for (int j = 0; j < 3; j++) {
+					char xo = board[i][j];
+					int xImage, yImage;
+					
+					xImage = (cellWidth * j) + (cellWidth - imgX.getWidth()) / 2 + 130;
+					yImage = (cellHeight * i) + (cellHeight - imgX.getHeight()) /2 + 210;
+					
+					if(xo == 'X') {
+						g.drawImage(imgX, xImage, yImage, this);
+					}else if(xo == 'O') {
+						g.drawImage(imgO, xImage, yImage, this);
+					}
 				}
 			}
-		}
-		
-		whoWon();
+			
+			whoWon();
+		}else {
+			panelTypeGame(g);
+		}	
 		
 	}
 	
@@ -226,12 +242,26 @@ public class Jogo extends JPanel{
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				int cellWidth = (getWidth()-250)/3;
-				int cellHeight = (getHeight() - 100)/3;
-				int row = (e.getY() - 140)/ cellHeight;
-				int col = (e.getX() - 190)/ cellWidth;
-				System.out.println("Clicked: " + row + ", " + col);
-				insertXO(row, col);
+				if(typeGame != 0) {
+					int cellWidth = (getWidth()-250)/3;
+					int cellHeight = (getHeight() - 100)/3;
+					int row = (e.getY() - 140)/ cellHeight;
+					int col = (e.getX() - 190)/ cellWidth;
+					System.out.println("Clicked: " + row + ", " + col);
+					insertXO(row, col);
+				}else {
+					int x = e.getX();
+					int y = e.getY();
+					if((x >= 200 || x <= 200 + imgPlayersButton.getWidth(null)) && 
+							(y>=290 || x <= 290 + imgPlayersButton.getHeight(null))) {
+						typeGame = 1;
+						
+					} else if ((x >= 420 || x <= 420 + imgAIButton.getWidth(null)) &&
+	                           (y >= 290 || y <= 290 + imgAIButton.getHeight(null))) {
+	                    typeGame = 2;
+	                }
+				}
+
 			}
 			
 			@Override
@@ -345,40 +375,25 @@ public class Jogo extends JPanel{
 		return false;
 	}	
 	
-	public void panelTypeGame() {
-		JFrame typeGameWindow = new JFrame("Escolher Tipo de Jogo");
-		typeGameWindow.setSize(400, 400);
-		typeGameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		typeGameWindow.setLocationRelativeTo(null);
+	public void panelTypeGame(Graphics g) {
 		
-		JPanel typeGamePanel = new JPanel(new BorderLayout());
+		g.drawImage(imgBack, 0, 0, null);
 		
-		JLabel messageLabel = new JLabel("Escolha qual tipo de jogo: ");
-		typeGamePanel.add(messageLabel, BorderLayout.CENTER);
+		Color retangulo = new Color(76, 237, 104);
+		g.setColor(retangulo);
+		g.fillRoundRect(150, 250, 550, 400, 30, 30);
 		
-		JButton aiButton = new JButton("VS AI");
-		aiButton.addActionListener((ActionListener) new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				typeGameWindow.dispose();
-				mainPanel();
-			}
-		});
+		String EscolhaTipo = "Escolha com qual adversário deseja jogar: ";
 		
-		JButton twoPlayerButton = new JButton("Player VS Player");
-		twoPlayerButton.addActionListener((ActionListener) new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				typeGameWindow.dispose();
-				mainPanel();
-			}
-		});
+		g.setFont(new Font("Gotham", Font.BOLD, 30));
+		g.setColor(retangulo);
 		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(aiButton);
-		buttonPanel.add(twoPlayerButton);
-		typeGamePanel.add(buttonPanel, BorderLayout.SOUTH);
+		g.drawString(EscolhaTipo, 110, 200);
 		
-		typeGameWindow.add(typeGamePanel);
-		typeGameWindow.setVisible(true);
+		g.drawImage(imgPlayersButton, 200, 290, this);
+		
+		g.drawImage(imgAIButton, 420, 290, this);
+
 	}
 	
 	public JPanel getPanel() {

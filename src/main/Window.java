@@ -1,21 +1,24 @@
 package main;
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Window {
 
 	private JFrame mainWindow;
-
+	private Jogo jogo;
+	
 	private static int Width = 900;
 	private static int Height = 800;
 	
 	public Window() {
-		this.createWindow();
-		this.createPanel();
+		this.createMainWindow();
+		this.createMainPanel();
 	}
 
-    public void createWindow(){
+    public void createMainWindow(){
         JFrame window = new JFrame("Jogo da Velha");
         window.setSize(Width, Height);
         window.setResizable(false);
@@ -25,11 +28,10 @@ public class Window {
         this.setMainWindow(window);
     }
     
-    public void createPanel() {
+    public void createMainPanel() {
     	Jogo jogo = new Jogo();
 		mainWindow.add(jogo);
 		mainWindow.setVisible(true);
-		jogo.panelTypeGame();
     }
     
     public JFrame getMainWindow() {
