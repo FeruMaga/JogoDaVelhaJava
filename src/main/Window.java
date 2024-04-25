@@ -29,6 +29,7 @@ public class Window {
     	Jogo jogo = new Jogo();
 		mainWindow.add(jogo);
 		mainWindow.setVisible(true);
+		jogo.panelTypeGame();
     }
     
     public JFrame getMainWindow() {

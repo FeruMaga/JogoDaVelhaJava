@@ -36,6 +36,8 @@ public class Jogo extends JPanel{
 	
 	private String winner;
 	
+	private int typeGame;
+	
 	private char playerIA;
 	private char player;
 	
@@ -46,11 +48,19 @@ public class Jogo extends JPanel{
 		this.gameOver = false;
 		this.board = new char[3][3];
 		this.turn = 0;
-		JPanel gridPanel = new JPanel(new GridLayout(3,3));
-		gridPanel.setSize(new Dimension(500,500));
-		add(gridPanel, BorderLayout.CENTER);
+		this.typeGame = 0;
 		loadImages();
 		mouse();
+	}
+	
+	public void mainPanel() {
+		if(typeGame == 0) {
+			JPanel gridPanel = new JPanel(new GridLayout(3,3));
+			gridPanel.setSize(new Dimension(500,500));
+			add(gridPanel, BorderLayout.CENTER);
+		}else {
+			System.out.println("Escolhe tipo de jogo");
+		}
 	}
 	
 	public void panelFinish() {
@@ -334,6 +344,42 @@ public class Jogo extends JPanel{
 		}
 		return false;
 	}	
+	
+	public void panelTypeGame() {
+		JFrame typeGameWindow = new JFrame("Escolher Tipo de Jogo");
+		typeGameWindow.setSize(400, 400);
+		typeGameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		typeGameWindow.setLocationRelativeTo(null);
+		
+		JPanel typeGamePanel = new JPanel(new BorderLayout());
+		
+		JLabel messageLabel = new JLabel("Escolha qual tipo de jogo: ");
+		typeGamePanel.add(messageLabel, BorderLayout.CENTER);
+		
+		JButton aiButton = new JButton("VS AI");
+		aiButton.addActionListener((ActionListener) new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				typeGameWindow.dispose();
+				mainPanel();
+			}
+		});
+		
+		JButton twoPlayerButton = new JButton("Player VS Player");
+		twoPlayerButton.addActionListener((ActionListener) new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				typeGameWindow.dispose();
+				mainPanel();
+			}
+		});
+		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(aiButton);
+		buttonPanel.add(twoPlayerButton);
+		typeGamePanel.add(buttonPanel, BorderLayout.SOUTH);
+		
+		typeGameWindow.add(typeGamePanel);
+		typeGameWindow.setVisible(true);
+	}
 	
 	public JPanel getPanel() {
 		return panel;
