@@ -57,46 +57,47 @@ public class PanelControl extends JPanel{
 			int tituloHeight = 100;
 			int tituloWidth = 600;
 			
+			ClassLoader classLoader = getClass().getClassLoader();
 			
-			imgBack = ImageIO.read(new File("src/resources/BackgroundEdit.png"));
+			imgBack = ImageIO.read(classLoader.getResourceAsStream("resources/BackgroundEdit.png"));
 			
-			BufferedImage titulo = ImageIO.read(new File("src/resources/Placa1.jpg"));
+			BufferedImage titulo = ImageIO.read(classLoader.getResourceAsStream("resources/Placa1.jpg"));
 			imgTitle = new BufferedImage(tituloWidth, tituloHeight, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2dTitulo = imgTitle.createGraphics();
 		    g2dTitulo.drawImage(titulo.getScaledInstance(tituloWidth, tituloHeight, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dTitulo.dispose();
 			
-			BufferedImage placa = ImageIO.read(new File("src/resources/Placa2.jpg"));
+			BufferedImage placa = ImageIO.read(classLoader.getResourceAsStream("resources/Placa2.jpg"));
 			imgPlaca = new BufferedImage(placaWidth, placaHeight, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2dPlaca = imgPlaca.createGraphics();
 		    g2dPlaca.drawImage(placa.getScaledInstance(placaWidth, placaHeight, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dPlaca.dispose();
 			
-			BufferedImage game = ImageIO.read(new File("src/resources/JogoDaVelha.png"));
+			BufferedImage game = ImageIO.read(classLoader.getResourceAsStream("resources/JogoDaVelha.png"));
 			imgGame = new BufferedImage(gameWidth, gameHeight, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2dGame = imgGame.createGraphics();
 		    g2dGame.drawImage(game.getScaledInstance(gameWidth, gameHeight, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dGame.dispose();
 			
-			BufferedImage x = ImageIO.read(new File("src/resources/X.png"));
+			BufferedImage x = ImageIO.read(classLoader.getResourceAsStream("resources/X.png"));
 			imgX = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2dX = imgX.createGraphics();
 		    g2dX.drawImage(x.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dX.dispose();
 			
-		    BufferedImage o = ImageIO.read(new File("src/resources/O.png"));
+		    BufferedImage o = ImageIO.read(classLoader.getResourceAsStream("resources/O.png"));
 			imgO = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2dO = imgO.createGraphics();
 		    g2dO.drawImage(o.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dO.dispose();
 		    
-		    BufferedImage playersButton = ImageIO.read(new File("src/resources/Botao1.png"));
+		    BufferedImage playersButton = ImageIO.read(classLoader.getResourceAsStream("resources/Botao1.png"));
 		    imgPlayersButton = new BufferedImage(220, 300, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2dPlayersButton = imgPlayersButton.createGraphics();
 		    g2dPlayersButton.drawImage(playersButton.getScaledInstance(220, 300, Image.SCALE_SMOOTH), 0, 0, null);
 		    g2dPlayersButton.dispose();
 		    
-		    BufferedImage aiButton = ImageIO.read(new File("src/resources/Botao2.png"));
+		    BufferedImage aiButton = ImageIO.read(classLoader.getResourceAsStream("resources/Botao2.png"));
 		    imgAIButton = new BufferedImage(220, 300, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2dAIButton = imgAIButton.createGraphics();
 		    g2dAIButton.drawImage(aiButton.getScaledInstance(220, 300, Image.SCALE_SMOOTH), 0, 0, null);

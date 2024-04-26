@@ -42,7 +42,7 @@ public class Window {
     }
     
     public void defineIcon() {
-		mainWindow.setIconImage(new ImageIcon("src/resources/icon.jpeg").getImage());
+    	mainWindow.setIconImage(new ImageIcon(getClass().getClassLoader().getResource("resources/icon.jpeg")).getImage());
     }
     
     public JFrame getMainWindow() {
