@@ -2,7 +2,7 @@ package ai;
 
 public class MiniMaxAI {
 
-	private static int MAX_DEPTH = 6;
+	private static int MAX_DEPTH = 1;
 	
 	private char playerAI;
 	private char player;
@@ -119,7 +119,7 @@ public class MiniMaxAI {
 				if(board[i][j] == 0) {
 					board[i][j] = playerAI;
 					
-					int moveVal = minimax(board, 0, false);
+					int moveVal = minimax(board, MAX_DEPTH, false);
 					
 					board[i][j] = 0;
 					

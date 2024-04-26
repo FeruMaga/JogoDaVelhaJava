@@ -109,7 +109,8 @@ public class Jogo{
 		
 		if(player == 'X') {
 			if(turn == 1) {
-				
+				insertXOAI();
+				insertXO(row, col);
 			}else if(turn == 0) {
 				insertXO(row, col);
 				insertXOAI();
@@ -118,6 +119,9 @@ public class Jogo{
 			if(turn == 1) {
 				insertXO(row, col);
 				insertXOAI();
+			}else if(turn == 0) {
+				insertXOAI();
+				insertXO(row, col);
 			}
 		}
 	}
@@ -156,10 +160,12 @@ public class Jogo{
         	y>=300 && y <= 300 + panelControl.getImgO().getHeight(null)) {
             player = 'O';
             playerAI = 'X';
+            insertXOAI();
             System.out.println("O escolheu");
             panelControl.repaint();
             	
         }
+		
 	}
 	
 	public boolean xWon() {

@@ -264,9 +264,9 @@ public class PanelControl extends JPanel{
 		
 		g.drawString(EscolhaTipo, 110, 200);
 		
-		g.drawImage(imgPlayersButton, 200, 290, this);
+		g.drawImage(imgPlayersButton, 180, 290, this);
 		
-		g.drawImage(imgAIButton, 420, 290, this);
+		g.drawImage(imgAIButton, 450, 290, this);
 
 	}
 	

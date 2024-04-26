@@ -1,7 +1,13 @@
 package main;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.print.DocFlavor.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -16,6 +22,7 @@ public class Window {
 	public Window() {
 		this.createMainWindow();
 		this.createMainPanel();
+		this.defineIcon();
 	}
 
     public void createMainWindow(){
@@ -34,10 +41,14 @@ public class Window {
 		mainWindow.setVisible(true);
     }
     
+    public void defineIcon() {
+		mainWindow.setIconImage(new ImageIcon("src/resources/icon.jpeg").getImage());
+    }
+    
     public JFrame getMainWindow() {
 		return mainWindow;
 	}
-
+    
 	public void setMainWindow(JFrame mainWindow) {
 		this.mainWindow = mainWindow;
 	}
