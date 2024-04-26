@@ -40,7 +40,7 @@ public class Jogo extends JPanel{
 	
 	private int typeGame;
 	
-	private char playerIA;
+	private char playerAI;
 	private char player;
 	
 	private int row;
@@ -51,6 +51,8 @@ public class Jogo extends JPanel{
 		this.board = new char[3][3];
 		this.turn = 0;
 		this.typeGame = 0;	
+		this.player = ' ';
+		this.playerAI = ' ';
 		loadImages();
 		mouse();
 		mainPanel();
@@ -168,12 +170,10 @@ public class Jogo extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(typeGame != 0) {
-			try {
-				g.drawImage(imgBack, 0, 0, null);
-			}catch(Exception e) {
-				System.out.println(e);
-			}
+		if(typeGame == 1 || (typeGame == 2 &&
+				(player == 'X' || playerAI == 'X' || player == 'O' || playerAI == 'O'))) {
+			
+			g.drawImage(imgBack, 0, 0, null);
 			int xImageGame = (getWidth() - imgGame.getWidth())/2;
 			int yImageGame = (getHeight() - imgGame.getHeight())/2 + 100;
 			g.drawImage(imgGame, xImageGame, yImageGame, this);
@@ -232,34 +232,36 @@ public class Jogo extends JPanel{
 			}
 			
 			whoWon();
+			
+		}else if(typeGame == 2) {
+			if(player ==' ' && playerAI == ' ') {
+				panelChooseXO(g);
+			} else {
+				
+			}
 		}else {
 			panelTypeGame(g);
 		}	
 		
 	}
 	
+	
+	
 	public void mouse() {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(typeGame != 0) {
-					int cellWidth = (getWidth()-250)/3;
-					int cellHeight = (getHeight() - 100)/3;
-					int row = (e.getY() - 140)/ cellHeight;
-					int col = (e.getX() - 190)/ cellWidth;
-					System.out.println("Clicked: " + row + ", " + col);
-					insertXO(row, col);
+				if(typeGame == 1) {
+					playersMode(e);
+				}else if(typeGame == 2){
+					if(player == ' ' && playerAI == ' ') {
+						chooseXO(e);
+					}else {
+						aiMode(e);
+					}
+					
 				}else {
-					int x = e.getX();
-					int y = e.getY();
-					if((x >= 200 || x <= 200 + imgPlayersButton.getWidth(null)) && 
-							(y>=290 || x <= 290 + imgPlayersButton.getHeight(null))) {
-						typeGame = 1;
-						
-					} else if ((x >= 420 || x <= 420 + imgAIButton.getWidth(null)) &&
-	                           (y >= 290 || y <= 290 + imgAIButton.getHeight(null))) {
-	                    typeGame = 2;
-	                }
+					chooseTypeOfPlay(e);
 				}
 
 			}
@@ -283,6 +285,57 @@ public class Jogo extends JPanel{
 			}
 		}
 		repaint();
+	}
+	
+	public void playersMode(MouseEvent e) {
+		int cellWidth = (getWidth()-250)/3;
+		int cellHeight = (getHeight() - 100)/3;
+		int row = (e.getY() - 140)/ cellHeight;
+		int col = (e.getX() - 190)/ cellWidth;
+		System.out.println("Clicked: " + row + ", " + col);
+		insertXO(row, col);
+		repaint();
+	}
+	
+	public void aiMode(MouseEvent e) {
+		
+	}
+	
+	public void chooseTypeOfPlay(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		if(x >= 200 && x <= 200 + imgPlayersButton.getWidth(null) && 
+				y>=290 && y <= 290 + imgPlayersButton.getHeight(null)) {
+			typeGame = 1;
+			
+			
+		} else if (x >= 420 && x <= 420 + imgAIButton.getWidth(null) &&
+                   y >= 290 && y <= 290 + imgAIButton.getHeight(null)) {
+            typeGame = 2;
+            System.out.println("robo");
+            repaint();
+		}
+		repaint();
+	}
+	
+	public void chooseXO(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		System.out.println("Coordenadas " + x + ", " + y);
+		if(x >= 310 && x <= 310 + imgX.getWidth(null) && 
+				y>=300 && x <= 300 + imgX.getHeight(null)) {
+            	player = 'X';
+            	playerAI = 'O';
+            	System.out.println("X escolheu");
+            	repaint();
+        }else if(x >= 500 && x <= 500 + imgO.getWidth(null) && 
+        	y>=300 && x <= 300 + imgO.getHeight(null)) {
+            player = 'O';
+            playerAI = 'X';
+            System.out.println("O escolheu");
+            repaint();
+            	
+        }
 	}
 	
 	public boolean xWon() {
@@ -394,6 +447,26 @@ public class Jogo extends JPanel{
 		
 		g.drawImage(imgAIButton, 420, 290, this);
 
+	}
+	
+	public void panelChooseXO(Graphics g) {
+		g.drawImage(imgBack, 0, 0, null);
+		
+		Color retangulo = new Color(76, 237, 104);
+		g.setColor(retangulo);
+		g.fillRoundRect(280, 280, 330, 110, 30, 30);
+		
+		String EscolhaXO = "Escolha entre X ou O: ";
+		
+		g.setFont(new Font("Gotham", Font.BOLD, 30));
+		g.setColor(retangulo);
+		
+		g.drawString(EscolhaXO, 110, 200);
+		
+		g.drawImage(imgX, 310, 300, this);
+		
+		g.drawImage(imgO, 500, 300, this);
+		repaint();
 	}
 	
 	public JPanel getPanel() {
