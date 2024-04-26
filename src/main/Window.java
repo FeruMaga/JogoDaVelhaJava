@@ -29,8 +29,8 @@ public class Window {
     }
     
     public void createMainPanel() {
-    	Jogo jogo = new Jogo();
-		mainWindow.add(jogo);
+    	PanelControl panelControl = new PanelControl();
+		mainWindow.add(panelControl);
 		mainWindow.setVisible(true);
     }
     
