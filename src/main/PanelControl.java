@@ -112,19 +112,7 @@ public class PanelControl extends JPanel{
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(jogo.getTypeGame() == 1) {
-					jogo.playersMode(e);
-				}else if(jogo.getTypeGame() == 2){
-					if(jogo.getPlayer() == ' ' && jogo.getPlayerAI() == ' ') {
-						jogo.chooseXO(e);
-					}else {
-						jogo.aiMode(e);
-					}
-					
-				}else {
-					jogo.chooseTypeOfPlay(e);
-				}
-
+				jogo.nextTurn(e);
 			}
 			
 			@Override

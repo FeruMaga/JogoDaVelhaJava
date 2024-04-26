@@ -10,57 +10,46 @@ public class MiniMaxAI {
 	private int row;
 	private int col;
 	
-	public MiniMaxAI() {}
+	public MiniMaxAI(char player, char playerAI) {
+		this.player = player;
+		this.playerAI = playerAI;
+	}
 	
 	public int minimax(char board[][],int depth, boolean max) {
-		
-		int score = evaluate(board);
-		
-		if(score == 10)
-			return score;
-		
-		if(score == -10)
-			return score;
-		
-		if(movesLeft(board) ==  false) 
-			return 0;
-		
-		if(max) {
-			int best = -1000;
-			
-			for(int i = 0; i < 3; i++) {
-				for(int j = 0; j < 3; j++) {
-					
-					if(board[i][j] == 0) {
-						
-						board[i][j] = playerAI;
-						
-						best = Math.max(best, minimax(board, depth+1, !max));
-						
-						board[i][j] = 0;
-					}
-				}
-			}
-			return best;
-		} else {
-			int best = 1000;
-			
-			for(int i = 0; i < 3; i++) {
-				for(int j = 0; j < 3; j++) {
-					
-					if(board[i][j] == 0) {
-						
-						board[i][j] = player;
-						
-						best = Math.max(best, minimax(board, depth+1, !max));
-						
-						board[i][j] = 0;
-					}
-				}
-			}
-			return best;
+		 int score = evaluate(board);
+
+		    if (score == 10 || score == -10)
+		        return score;
+
+		    if (!movesLeft(board))
+		        return 0;
+
+		    if (max) {
+		        int best = Integer.MIN_VALUE;
+		        for (int i = 0; i < 3; i++) {
+		            for (int j = 0; j < 3; j++) {
+		                if (board[i][j] == 0) {
+		                    board[i][j] = playerAI;
+		                    best = Math.max(best, minimax(board, depth + 1, !max));
+		                    board[i][j] = 0;
+		                }
+		            }
+		        }
+		        return best;
+		    } else {
+		        int best = Integer.MAX_VALUE;
+		        for (int i = 0; i < 3; i++) {
+		            for (int j = 0; j < 3; j++) {
+		                if (board[i][j] == 0) {
+		                    board[i][j] = player;
+		                    best = Math.min(best, minimax(board, depth + 1, !max));
+		                    board[i][j] = 0;
+		                }
+		            }
+		        }
+		        return best;
+		    }
 		}
-	}
 	
 	public int evaluate(char board[][]) {
 		
@@ -116,10 +105,13 @@ public class MiniMaxAI {
 		return false;
 	}
 	
-	public void findBestMove(char board[][]) {
+	public int[] findBestMove(char board[][]) {
 		int bestVal = -1000;
 		row = -1;
 		col = -1;
+		int[] bestMove = new int[2];
+		bestMove[0] = row;
+		bestMove[1] = col;
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
@@ -132,14 +124,15 @@ public class MiniMaxAI {
 					board[i][j] = 0;
 					
 					if(moveVal > bestVal) {
-						row = i;
-						col = j;
+						bestMove[0] = i;
+						bestMove[1] = j;
 						bestVal = moveVal;
 					}
 				}
 			}
 		}
-		System.out.println("Melhor movimento: " + row +", " + col);
+		System.out.println("Melhor movimento: " + bestMove[0] +", " + bestMove[1]);
+		return bestMove;
 	}
 	
 }

@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -17,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import ai.MiniMaxAI;
 
 public class Jogo{
 	
@@ -46,6 +49,20 @@ public class Jogo{
 		this.playerAI = ' ';
 	}
 	
+	public void nextTurn(MouseEvent e) {
+		if(getTypeGame() == 1) {
+			playersMode(e);
+		}else if(getTypeGame() == 2){
+			if(getPlayer() == ' ' && getPlayerAI() == ' ') {
+				chooseXO(e);
+			}else {
+				aiMode(e);
+			}
+			
+		}else {
+			chooseTypeOfPlay(e);
+		}
+	}
 	
 	
 	public void insertXO(int row, int col) {
@@ -71,8 +88,38 @@ public class Jogo{
 		panelControl.repaint();
 	}
 	
-	public void aiMode(MouseEvent e) {
+	public void insertXOAI() {
+		if(!gameOver) {
+			MiniMaxAI minimax = new MiniMaxAI(player, playerAI);
+			
+			int aiMove[] = minimax.findBestMove(board);
+			int rowAI = aiMove[0];
+			int colAI = aiMove[1];
+	
+			insertXO(rowAI, colAI);
+		}
+		panelControl.repaint();
+	}
+	
+	public void aiMode(MouseEvent e){
+		int cellWidth = (panelControl.getWidth()-250)/3;
+		int cellHeight = (panelControl.getHeight() - 100)/3;
+		int row = (e.getY() - 140)/ cellHeight;
+		int col = (e.getX() - 190)/ cellWidth;
 		
+		if(player == 'X') {
+			if(turn == 1) {
+				
+			}else if(turn == 0) {
+				insertXO(row, col);
+				insertXOAI();
+			}
+		} else if(player == 'O') {
+			if(turn == 1) {
+				insertXO(row, col);
+				insertXOAI();
+			}
+		}
 	}
 	
 	public void chooseTypeOfPlay(MouseEvent e) {
@@ -191,6 +238,9 @@ public class Jogo{
 		this.gameOver = false;
 		this.board = new char[3][3];
 		this.turn = 0;
+		this.typeGame = 0;	
+		this.player = ' ';
+		this.playerAI = ' ';
 		panelControl.repaint();
 	}
 	
