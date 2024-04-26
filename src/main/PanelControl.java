@@ -112,7 +112,6 @@ public class PanelControl extends JPanel{
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("Clicou");
 				if(jogo.getTypeGame() == 1) {
 					jogo.playersMode(e);
 				}else if(jogo.getTypeGame() == 2){
@@ -130,7 +129,7 @@ public class PanelControl extends JPanel{
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("Released");
+
 			}
 			
 		});
@@ -142,63 +141,7 @@ public class PanelControl extends JPanel{
 		if(jogo.getTypeGame() == 1 || (jogo.getTypeGame() == 2 &&
 				(jogo.getPlayer() == 'X' || jogo.getPlayerAI() == 'X' || jogo.getPlayer() == 'O' || jogo.getPlayerAI() == 'O'))) {
 			
-			g.drawImage(imgBack, 0, 0, null);
-			int xImageGame = (getWidth() - imgGame.getWidth())/2;
-			int yImageGame = (getHeight() - imgGame.getHeight())/2 + 100;
-			g.drawImage(imgGame, xImageGame, yImageGame, this);
-				
-			String title = "Jogo da Velha";
-			int xTitulo = (getWidth() - imgTitle.getWidth())/2;
-			int yTitulo = 30;
-				
-			g.drawImage(imgTitle, xTitulo, yTitulo, this);
-			
-			g.setFont(new Font("Gotham", Font.BOLD, 50));
-			g.setColor(Color.BLACK);
-			
-			xTitulo += 130;
-			yTitulo += 53;
-			
-			g.drawString(title, xTitulo, yTitulo);
-			
-			String turno = "Turno: ";
-			int xTurno = 30;
-			int yTurno = 145;
-			
-			if (jogo.getTurn() == 0) {
-				turno = turno + "X";
-			}else {
-				turno = turno + "O";
-			}
-			
-			g.drawImage(imgPlaca, xTurno, yTurno, this);
-			
-			g.setFont(new Font("Gotham", Font.BOLD, 30));
-			g.setColor(Color.BLACK);
-			
-			yTurno += 60;
-			xTurno += 50;
-			
-			g.drawString(turno, xTurno, yTurno);
-			
-			int cellWidth = getWidth()/3 - 90;
-			int cellHeight = getHeight()/3 - 85;
-			
-			for(int i = 0; i < 3; i++) {
-				for (int j = 0; j < 3; j++) {
-					char xo = jogo.getBoard()[i][j];
-					int xImage, yImage;
-					
-					xImage = (cellWidth * j) + (cellWidth - imgX.getWidth()) / 2 + 130;
-					yImage = (cellHeight * i) + (cellHeight - imgX.getHeight()) /2 + 210;
-					
-					if(xo == 'X') {
-						g.drawImage(imgX, xImage, yImage, this);
-					}else if(xo == 'O') {
-						g.drawImage(imgO, xImage, yImage, this);
-					}
-				}
-			}
+			jogoDaVelhaPanel(g);
 			
 			jogo.whoWon();
 			
@@ -212,6 +155,66 @@ public class PanelControl extends JPanel{
 			panelTypeGame(g);
 		}	
 		
+	}
+	
+	public void jogoDaVelhaPanel(Graphics g) {
+		g.drawImage(imgBack, 0, 0, null);
+		int xImageGame = (getWidth() - imgGame.getWidth())/2;
+		int yImageGame = (getHeight() - imgGame.getHeight())/2 + 100;
+		g.drawImage(imgGame, xImageGame, yImageGame, this);
+			
+		String title = "Jogo da Velha";
+		int xTitulo = (getWidth() - imgTitle.getWidth())/2;
+		int yTitulo = 30;
+			
+		g.drawImage(imgTitle, xTitulo, yTitulo, this);
+		
+		g.setFont(new Font("Gotham", Font.BOLD, 50));
+		g.setColor(Color.BLACK);
+		
+		xTitulo += 130;
+		yTitulo += 53;
+		
+		g.drawString(title, xTitulo, yTitulo);
+		
+		String turno = "Turno: ";
+		int xTurno = 30;
+		int yTurno = 145;
+		
+		if (jogo.getTurn() == 0) {
+			turno = turno + "X";
+		}else {
+			turno = turno + "O";
+		}
+		
+		g.drawImage(imgPlaca, xTurno, yTurno, this);
+		
+		g.setFont(new Font("Gotham", Font.BOLD, 30));
+		g.setColor(Color.BLACK);
+		
+		yTurno += 60;
+		xTurno += 50;
+		
+		g.drawString(turno, xTurno, yTurno);
+		
+		int cellWidth = getWidth()/3 - 90;
+		int cellHeight = getHeight()/3 - 85;
+		
+		for(int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				char xo = jogo.getBoard()[i][j];
+				int xImage, yImage;
+				
+				xImage = (cellWidth * j) + (cellWidth - imgX.getWidth()) / 2 + 130;
+				yImage = (cellHeight * i) + (cellHeight - imgX.getHeight()) /2 + 210;
+				
+				if(xo == 'X') {
+					g.drawImage(imgX, xImage, yImage, this);
+				}else if(xo == 'O') {
+					g.drawImage(imgO, xImage, yImage, this);
+				}
+			}
+		}
 	}
 	
 	public void mainPanel() {

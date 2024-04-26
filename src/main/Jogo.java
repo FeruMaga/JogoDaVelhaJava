@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Jogo extends JPanel{
+public class Jogo{
 	
 	PanelControl panelControl;
 
@@ -76,8 +76,10 @@ public class Jogo extends JPanel{
 	}
 	
 	public void chooseTypeOfPlay(MouseEvent e) {
+	
 		int x = e.getX();
 		int y = e.getY();
+		
 		if(x >= 200 && x <= 200 + panelControl.getImgPlayersButton().getWidth(null) && 
 				y>=290 && y <= 290 + panelControl.getImgPlayersButton().getHeight(null)) {
 			typeGame = 1;
@@ -93,9 +95,10 @@ public class Jogo extends JPanel{
 	}
 	
 	public void chooseXO(MouseEvent e) {
+		
 		int x = e.getX();
 		int y = e.getY();
-		System.out.println("Coordenadas " + x + ", " + y);
+		
 		if(x >= 310 && x <= 310 + panelControl.getImgX().getWidth(null) && 
 				y>=300 && x <= 300 + panelControl.getImgX().getHeight(null)) {
             	player = 'X';
@@ -103,7 +106,7 @@ public class Jogo extends JPanel{
             	System.out.println("X escolheu");
             	panelControl.repaint();
         }else if(x >= 500 && x <= 500 + panelControl.getImgO().getWidth(null) && 
-        	y>=300 && x <= 300 + panelControl.getImgO().getHeight(null)) {
+        	y>=300 && y <= 300 + panelControl.getImgO().getHeight(null)) {
             player = 'O';
             playerAI = 'X';
             System.out.println("O escolheu");
