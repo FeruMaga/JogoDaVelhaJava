@@ -56,7 +56,9 @@ public class Jogo{
 			if(getPlayer() == ' ' && getPlayerAI() == ' ') {
 				chooseXO(e);
 			}else {
-				aiMode(e);
+				if(!gameOver) {
+					aiMode(e);
+				}
 			}
 			
 		}else {
@@ -90,13 +92,18 @@ public class Jogo{
 	
 	public void insertXOAI() {
 		if(!gameOver) {
-			MiniMaxAI minimax = new MiniMaxAI(player, playerAI);
-			
-			int aiMove[] = minimax.findBestMove(board);
-			int rowAI = aiMove[0];
-			int colAI = aiMove[1];
-	
-			insertXO(rowAI, colAI);
+			try {
+				MiniMaxAI minimax = new MiniMaxAI(player, playerAI);
+				
+				int aiMove[] = minimax.findBestMove(board);
+				int rowAI = aiMove[0];
+				int colAI = aiMove[1];
+				
+				
+				insertXO(rowAI, colAI);
+			}catch(ArrayIndexOutOfBoundsException e) {
+				System.err.println("Não foi possível encontrar um melhor movimento: " + e.getMessage());
+			}
 		}
 		panelControl.repaint();
 	}

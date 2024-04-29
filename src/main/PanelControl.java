@@ -204,6 +204,7 @@ public class PanelControl extends JPanel{
 				}
 			}
 		}
+		
 	}
 	
 	public void mainPanel() {

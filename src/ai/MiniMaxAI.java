@@ -131,7 +131,13 @@ public class MiniMaxAI {
 				}
 			}
 		}
-		System.out.println("Melhor movimento: " + bestMove[0] +", " + bestMove[1]);
+		
+		if (bestMove[0] != -1 && bestMove[1] != -1) {
+		       System.out.println("Melhor movimento: " + bestMove[0] + ", " + bestMove[1]);
+		} else {
+		       System.out.println("Não foi possível encontrar um melhor movimento.");
+		}
+		
 		return bestMove;
 	}
 	
